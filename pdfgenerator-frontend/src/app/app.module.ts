@@ -8,19 +8,38 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCommonModule } from '@angular/material/core';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { HeaderComponent } from './components/header/header.component';
+import { CommonModule } from '@angular/common';
+import { LoopProductComponent } from './shared/loop-product/loop-product.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
     DashboardComponent,
+    LoginComponent,
+    RegisterComponent,
+    HeaderComponent,
+    LoopProductComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    LoginComponent,
+    MatCardModule,
+    MatInputModule,
+    MatIconModule,
+    MatCommonModule,
+    RouterModule,
+    MatButtonModule,
+    CommonModule,
+    LoopProductComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

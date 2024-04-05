@@ -1,0 +1,46 @@
+.mainContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.registerContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: fit-content;
+    padding: 3%;
+}
+
+@media screen and (max-width: 768px){
+    .loginContainer{
+        
+    }
+}
+
+
+.form-fields{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginButton{
+   width: 100%;
+   margin-bottom: 5%;
+}
+
+.registerButton{
+    width: 100%;
+}
+
+.actions{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
