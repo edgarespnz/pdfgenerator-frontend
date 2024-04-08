@@ -1,0 +1,73 @@
+.productContainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 300px;
+    height: fit-content;
+    border: 1px solid rgba(0, 0, 0, 0.052);
+    border-radius: 15px;
+    box-shadow:rgba(0, 0, 0, 0.052) 0px 5px 15px;
+    padding: 5%;
+}
+
+h2{
+    text-align: center;
+    margin-top: 20px;
+}
+.brandContainer > h2{
+    font-size: smaller;
+    color: grey;
+    margin-top: 10px;
+}
+
+.productImage{
+    width: 300px;
+    height: 300px;
+}
+
+.productImageContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.productTitleContainer > h2{
+    font-size: large;
+    margin-top: 10px;
+}
+
+.regularPrice{
+    text-decoration: line-through;
+    color: red;
+    font-size: large;
+}
+
+.discountedPrice{
+    color: black;
+    font-weight: 500;
+    font-size: xx-large;
+    margin-left: 5%;
+}
+
+.productInfo{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.productActionsIcon{
+    cursor: pointer;
+}
+
+.productActionsIcon:hover{
+    color: #3f51b5;
+}

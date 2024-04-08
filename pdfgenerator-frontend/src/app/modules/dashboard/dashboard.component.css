@@ -1,0 +1,12 @@
+.dashboardContainer{
+    height: 100vh;
+}
+
+.dashboardSidenavContainer {
+    height: 100%;
+    background-color: #f8f9fa;
+}
+
+.mat-sidenav, .mat-sidenav-content{
+    padding: 2%;
+}

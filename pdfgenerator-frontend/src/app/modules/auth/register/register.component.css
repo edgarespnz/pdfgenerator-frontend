@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
     height: fit-content;
-    width: fit-content;
+    width: 400px;
     padding: 3%;
 }
 
@@ -29,6 +29,12 @@
     justify-content: center;
 }
 
+
+.errors{
+    max-width: 300px;
+    margin-bottom: 5px;
+}
+
 .loginButton{
    width: 100%;
    margin-bottom: 5%;
@@ -43,4 +49,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.footerContainer{
+    width: 250px;
 }

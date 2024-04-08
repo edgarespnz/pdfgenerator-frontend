@@ -1,10 +1,22 @@
 <div class="productContainer">
-    <div class="productImage">
-        <img src="" alt="{{product.name}}">
-    </div>
-    <div class="productInfo">
-        <h3>{{product.name}}</h3>
-        <p>{{product.regular_price}}</p>
-        <button mat-raised-button (click)="addToCart()">Agregar al carrito</button>
-    </div>
+   <div class="productImageContainer">
+    <img class="productImage" src="{{ loopProduct.image_url }}" alt="product_url" />
+   </div>
+
+  <div class="brandContainer">
+    <h2>{{ loopProduct.brand }}</h2>
+  </div>
+  <div class="productTitleContainer">
+    <h2>{{ loopProduct.name }}</h2>
+  </div>
+  <div class="productInfo">
+    <p class="regularPrice">{{ loopProduct.price }}</p>
+    <p class="discountedPrice">{{ loopProduct.discounted_price }}</p>
+  </div>
+  <div class="actions">
+    <button mat-raised-button (click)="addToCart()">Agregar a la exportación<mat-icon matIconSuffix>add</mat-icon> </button>
+    <mat-icon class="productActionsIcon">favorite_border</mat-icon>
+    <mat-icon class="productActionsIcon">share</mat-icon>
+  </div>
+  
 </div>

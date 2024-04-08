@@ -7,11 +7,12 @@ import { Component } from '@angular/core';
 })
 export class LoopProductComponent {
 
-    product = 
+    loopProduct = 
       {
         "sku": "KLEV5011",
         "name": "Pack Iso Whey 5 kg Chocolate + Creatina Kevin Levrone 300gr",
-        "regular_price": "S/ 669.80",
+        "image_url": "https://selltechnutrition.com/wp-content/uploads/2023/12/vT3f6qkrL-DRPH0007.jpg",
+        "price": "S/ 669.80",
         "discounted_price": "S/ 439.90",
         "position": 200,
         "categories": "PACKS & COMBOS",

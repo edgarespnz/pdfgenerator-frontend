@@ -1,22 +1,46 @@
-import { NgModule } from '@angular/core';
+// Angular core modules
+import { NgModule, importProvidersFrom } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+
+//Angular routing module
+import { AppRoutingModule } from './app-routing.module';
+
+//Modules and components
+import { AppComponent } from './app.component';
+
+import { LoginComponent } from './modules/auth/login/login.component';
+import { RegisterComponent } from './modules/auth/register/register.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { NotFoundComponent } from './modules/not-found/not-found.component';
+import { NavigationBarComponent } from './shared/navigation-bar/navigation-bar.component';
+
+//angular forms
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { LoopProductComponent } from './shared/loop-product/loop-product.component';
+
+//angular material
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCommonModule } from '@angular/material/core';
-import { RouterModule } from '@angular/router';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { HeaderComponent } from './components/header/header.component';
-import { CommonModule } from '@angular/common';
-import { LoopProductComponent } from './shared/loop-product/loop-product.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTreeModule} from '@angular/material/tree';
+
+//Angular router
+import { RouterModule } from '@angular/router';
+
+//Http client
+import { HttpClientModule } from '@angular/common/http';
+
+//PDF generator components and modules
+import { CreateComponent } from './modules/pdf-generator/create/create.component';
+import { ExportComponent } from './modules/pdf-generator/export/export.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +49,13 @@ import { LoopProductComponent } from './shared/loop-product/loop-product.compone
     LoginComponent,
     RegisterComponent,
     HeaderComponent,
-    LoopProductComponent
+    LoopProductComponent,
+    NotFoundComponent,
+    NavigationBarComponent,
+    NavigationBarComponent,
+    ExportComponent,
+    CreateComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -39,9 +69,15 @@ import { LoopProductComponent } from './shared/loop-product/loop-product.compone
     RouterModule,
     MatButtonModule,
     CommonModule,
-    LoopProductComponent
+    MatGridListModule,
+    MatSidenavModule,
+    MatListModule,
+    MatTreeModule
+    
   ],
-  providers: [],
+  providers: [
+    importProvidersFrom(HttpClientModule)
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
