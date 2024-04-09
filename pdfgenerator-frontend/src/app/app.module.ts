@@ -39,8 +39,14 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 //PDF generator components and modules
-import { CreateComponent } from './modules/pdf-generator/create/create.component';
-import { ExportComponent } from './modules/pdf-generator/export/export.component';
+import { PdfgeneratorExportComponent } from './modules/pdf-generator/pdfgenerator-export/pdfgenerator-export.component';
+import { PdfgeneratorCreateComponent } from './modules/pdf-generator/pdfgenerator-create/pdfgenerator-create.component';
+
+
+//Products components (admin)
+import { ProductCreateComponent } from './modules/products/product-create/product-create.component';
+import { ProductEditComponent } from './modules/products/product-edit/product-edit.component';
+import { ProductAllComponent } from './modules/products/product-all/product-all.component';
 
 @NgModule({
   declarations: [
@@ -53,8 +59,15 @@ import { ExportComponent } from './modules/pdf-generator/export/export.component
     NotFoundComponent,
     NavigationBarComponent,
     NavigationBarComponent,
-    ExportComponent,
-    CreateComponent
+
+    //PDF generator components
+    PdfgeneratorExportComponent,
+    PdfgeneratorCreateComponent,
+
+    //Products components (admin)
+    ProductCreateComponent,
+    ProductEditComponent,
+    ProductAllComponent
     
   ],
   imports: [

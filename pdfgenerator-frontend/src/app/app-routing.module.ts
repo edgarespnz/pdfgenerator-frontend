@@ -9,21 +9,27 @@ import { NotFoundComponent } from './modules/not-found/not-found.component';
 
 
 import { authGuard } from './guards/auth/auth.guard';
-import { ExportComponent } from './modules/pdf-generator/export/export.component';
-import { CreateComponent } from './modules/pdf-generator/create/create.component';
+import { PdfgeneratorCreateComponent } from './modules/pdf-generator/pdfgenerator-create/pdfgenerator-create.component';
+import { PdfgeneratorExportComponent } from './modules/pdf-generator/pdfgenerator-export/pdfgenerator-export.component';
+import { PdfgeneratorEditComponent } from './modules/pdf-generator/pdfgenerator-edit/pdfgenerator-edit.component';
+import { ProductCreateComponent } from './modules/products/product-create/product-create.component';
+import { ProductEditComponent } from './modules/products/product-edit/product-edit.component';
+import { ProductAllComponent } from './modules/products/product-all/product-all.component';
 
 
 
-const routes: Routes = [
+export const routes: Routes = [
     {path: 'login', title: 'Iniciar Sesión', component: LoginComponent},
-    {
-      path: 'dashboard', 
-      title:'Panel Principal',  
-      component: DashboardComponent, 
-      canActivate: [authGuard],
-      children: [
-        {path: 'pdf-generator/export', title: 'Generador de PDF', component: ExportComponent,},
-        {path: 'pdf-generator/create', title: 'Generador de PDF', component: CreateComponent}
+    {path: 'admin/dashboard', title:'Panel Principal',  component: DashboardComponent, canActivate: [authGuard], children: [
+        {path: 'pdf-generator/export', title: 'Exportar - Generador de PDF', component: PdfgeneratorExportComponent,},
+        {path: 'pdf-generator/create', title: 'Crear - Generador de PDF', component: PdfgeneratorCreateComponent},
+        {path: 'pdf-generator/edit', title: 'Editar - Generador de PDF', component: PdfgeneratorEditComponent},
+      ]
+    },
+    {path: 'admin/dashboard', title: 'Productos',component: DashboardComponent,canActivate: [authGuard],children: [
+        {path: 'products/create', title: 'Crear un nuevo producto', component: ProductCreateComponent},
+        {path: 'products/edit', title: 'Editar un producto', component: ProductEditComponent},
+        {path: 'products/all', title: 'Todos los productos', component: ProductAllComponent}
       ]
     },
     {path: 'register',title: 'Crear una cuenta', component: RegisterComponent},
@@ -36,4 +42,15 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [LoginComponent, RegisterComponent, DashboardComponent, NotFoundComponent, ExportComponent, CreateComponent];
+
+export const routingComponents = [
+  LoginComponent,
+  RegisterComponent,
+  DashboardComponent,
+  NotFoundComponent,
+  PdfgeneratorExportComponent,
+  PdfgeneratorCreateComponent,
+  PdfgeneratorEditComponent,
+  ProductCreateComponent,
+  ProductEditComponent,
+];

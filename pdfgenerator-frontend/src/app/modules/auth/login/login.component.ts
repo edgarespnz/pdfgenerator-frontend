@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit{
    ngOnInit(): void {
       const token = localStorage.getItem('token');
       if(token){
-         this.router.navigate(['/dashboard']);
+         this.router.navigate(['/admin/dashboard']);
       }
    }
 
@@ -49,8 +49,13 @@ export class LoginComponent implements OnInit{
             error: (err) => {
                this.showErrors = true;
                this.disabledButton = false;
-               if(err.error.message === 'Invalid email or password'){
-                  this.errorMessage = 'Email o contraseña incorrectos';
+               if(err.error.message === 'Invalid email'){
+                  this.errorMessage = 'Email no encontrado';
+               } else if(err.error.message === 'Invalid password'){
+                  this.errorMessage = 'Contraseña incorrecta';
+               }
+               else{
+                  this.errorMessage = 'Error en el servidor, por favor intente de nuevo';
                }
             }
          });
