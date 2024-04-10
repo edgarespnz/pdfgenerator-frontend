@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit{
          this.authService.login(this.loginForm.value).subscribe({
             next: (response: any) => {
                localStorage.setItem('token', response.token.token);
-               this.router.navigate(['/dashboard']);
+               this.router.navigate(['/admin/dashboard']);
                this.disabledButton = false;
             },
             error: (err) => {
