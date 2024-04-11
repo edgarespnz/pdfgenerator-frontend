@@ -31,6 +31,10 @@ import {MatListModule} from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTreeModule} from '@angular/material/tree';
+import { MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
 
 //Angular router
 import { RouterModule } from '@angular/router';
@@ -85,7 +89,12 @@ import { ProductAllComponent } from './modules/products/product-all/product-all.
     MatGridListModule,
     MatSidenavModule,
     MatListModule,
-    MatTreeModule
+    MatTreeModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    
+    MatProgressSpinnerModule
     
   ],
   providers: [

@@ -1,0 +1,39 @@
+.in-stock-true{
+    color: green;
+}
+
+.in-stock-false{
+    color: red;
+}
+
+.products-page{
+    max-height: 100vh;
+    background-color: aqua;
+}
+
+.loading-shade{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.productsAllTable{
+    overflow: auto;
+    max-height: 95vh;
+}
+
+.mat-column-number,
+.mat-column-price{
+    max-width: 64px;
+}
+
+.mat-column-sku{
+    max-width: 128px;
+}
