@@ -5,6 +5,7 @@ import { environment } from 'src/app/environments/dev.environment';
 import { createProduct } from 'src/app/interfaces/products/createProduct.interface';
 import { editProduct } from 'src/app/interfaces/products/editProduct.interface';
 import { GetProductsResponse } from 'src/app/interfaces/products/GetProductsResponse';
+import { UpdateProductResponse } from 'src/app/interfaces/products/updateProduct.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +38,6 @@ export class ProductService {
     return this.http.get<GetProductsResponse>(url);
 }
 
-
-
   getProduct(id: string){
     return this.http.get(this.API_URL + '/products/' + id);
   }
@@ -47,12 +46,18 @@ export class ProductService {
     return this.http.post(this.API_URL + '/products', product);
   }
 
-  updateProduct(id: string, product: editProduct){
-    return this.http.put(this.API_URL + '/products/' + id, product);
+  updateProduct(id: number, product: editProduct): Observable<UpdateProductResponse>{
+    return this.http.put<UpdateProductResponse>(this.API_URL + '/product/' + id, product);
   }
 
   deleteProduct(id: string){
     return this.http.delete(this.API_URL + '/products/' + id);
+  }
+
+  //BORRAR CUANDO IMPLEMENTES UN SERVICIO DE PDF
+  generatePdf(productsId: any){
+    console.log(productsId);
+    return this.http.post(this.API_URL + '/pdf/generate', {products_id: productsId}, {responseType: 'blob'});
   }
 
 }

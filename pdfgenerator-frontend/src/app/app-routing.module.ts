@@ -20,7 +20,7 @@ import { ProductAllComponent } from './modules/products/product-all/product-all.
 
 export const routes: Routes = [
     {path: 'login', title: 'Iniciar Sesión', component: LoginComponent},
-    {path: 'admin/dashboard', title:'Panel Principal',  component: DashboardComponent, canActivate: [authGuard], children: [
+    {path: 'admin/dashboard', title:'Panel de administrador',  component: DashboardComponent, canActivate: [authGuard], children: [
         {path: 'pdf-generator/export', title: 'Exportar - Generador de PDF', component: PdfgeneratorExportComponent,},
         {path: 'pdf-generator/create', title: 'Crear - Generador de PDF', component: PdfgeneratorCreateComponent},
         {path: 'pdf-generator/edit', title: 'Editar - Generador de PDF', component: PdfgeneratorEditComponent},

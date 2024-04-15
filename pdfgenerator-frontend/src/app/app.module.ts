@@ -12,9 +12,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { RegisterComponent } from './modules/auth/register/register.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
-import { HeaderComponent } from './shared/header/header.component';
+import { HeaderComponent } from './shared/headers/header/header.component';
 import { NotFoundComponent } from './modules/not-found/not-found.component';
 import { NavigationBarComponent } from './shared/navigation-bar/navigation-bar.component';
+import { AdminHeaderComponent } from './shared/headers/admin-header/admin-header.component';
 
 //angular forms
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +36,9 @@ import { MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 //Angular router
 import { RouterModule } from '@angular/router';
@@ -51,6 +55,10 @@ import { PdfgeneratorCreateComponent } from './modules/pdf-generator/pdfgenerato
 import { ProductCreateComponent } from './modules/products/product-create/product-create.component';
 import { ProductEditComponent } from './modules/products/product-edit/product-edit.component';
 import { ProductAllComponent } from './modules/products/product-all/product-all.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { EditProductDialogComponent } from './shared/components/product/edit-product-dialog/edit-product-dialog.component';
+import { CreateProductDialogComponent } from './shared/components/product/create-product-dialog/create-product-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +71,7 @@ import { ProductAllComponent } from './modules/products/product-all/product-all.
     NotFoundComponent,
     NavigationBarComponent,
     NavigationBarComponent,
+    AdminHeaderComponent,
 
     //PDF generator components
     PdfgeneratorExportComponent,
@@ -71,7 +80,10 @@ import { ProductAllComponent } from './modules/products/product-all/product-all.
     //Products components (admin)
     ProductCreateComponent,
     ProductEditComponent,
-    ProductAllComponent
+    ProductAllComponent,
+    AdminHeaderComponent,
+    EditProductDialogComponent,
+    CreateProductDialogComponent
     
   ],
   imports: [
@@ -79,6 +91,7 @@ import { ProductAllComponent } from './modules/products/product-all/product-all.
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
     MatCardModule,
     MatInputModule,
     MatIconModule,
@@ -93,12 +106,15 @@ import { ProductAllComponent } from './modules/products/product-all/product-all.
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    
-    MatProgressSpinnerModule
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatButtonToggleModule
     
   ],
   providers: [
-    importProvidersFrom(HttpClientModule)
+    importProvidersFrom(HttpClientModule),
   ],
   bootstrap: [AppComponent]
 })

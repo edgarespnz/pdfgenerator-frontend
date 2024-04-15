@@ -8,7 +8,6 @@
 
 .products-page{
     max-height: 100vh;
-    background-color: aqua;
 }
 
 .loading-shade{
@@ -26,7 +25,7 @@
 
 .productsAllTable{
     overflow: auto;
-    max-height: 95vh;
+    max-height: 60vh;
 }
 
 .mat-column-number,
@@ -34,6 +33,30 @@
     max-width: 64px;
 }
 
+.mat-column-actions,
+.mat-column-number,
+.mat-column-price,
+.mat-column-discounted_price,
+.mat-column-stock,
+.mat-column-sku,
+.mat-column-title{
+    border-left: 1px solid #e9ecef;
+    border-right: 1px solid #e9ecef;
+}
+
 .mat-column-sku{
     max-width: 128px;
+}
+
+.filter-input{
+    width: 50%;
+}
+
+.actions{
+    display: flex;
+    justify-content: space-between;
+}
+
+.actions button{
+    margin: 10px 20px;
 }
