@@ -46,10 +46,6 @@ import { RouterModule } from '@angular/router';
 //Http client
 import { HttpClientModule } from '@angular/common/http';
 
-//PDF generator components and modules
-import { PdfgeneratorExportComponent } from './modules/pdf-generator/pdfgenerator-export/pdfgenerator-export.component';
-import { PdfgeneratorCreateComponent } from './modules/pdf-generator/pdfgenerator-create/pdfgenerator-create.component';
-
 
 //Products components (admin)
 import { ProductCreateComponent } from './modules/products/product-create/product-create.component';
@@ -72,10 +68,6 @@ import { CreateProductDialogComponent } from './shared/components/product/create
     NavigationBarComponent,
     NavigationBarComponent,
     AdminHeaderComponent,
-
-    //PDF generator components
-    PdfgeneratorExportComponent,
-    PdfgeneratorCreateComponent,
 
     //Products components (admin)
     ProductCreateComponent,

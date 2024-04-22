@@ -1,4 +1,4 @@
-import { Product } from "./product.interface";
+import { Product } from "./Product.interface";
 
 export interface UpdateProductResponse{
     success: boolean;

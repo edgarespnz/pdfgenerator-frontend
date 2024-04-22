@@ -5,59 +5,74 @@ import { environment } from 'src/app/environments/dev.environment';
 import { createProduct } from 'src/app/interfaces/products/createProduct.interface';
 import { editProduct } from 'src/app/interfaces/products/editProduct.interface';
 import { GetProductsResponse } from 'src/app/interfaces/products/GetProductsResponse';
+import { ProductsQueryParams } from 'src/app/interfaces/products/productsQueryParams.interface';
 import { UpdateProductResponse } from 'src/app/interfaces/products/updateProduct.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-
   private API_URL = environment.API_URL;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getProducts(type?: string, published?: boolean, sortBy?: string, sortOrder?: string, page?: number, pageSize?: number): Observable<GetProductsResponse>{
+  getProducts(
+    ProductQueryParams: ProductsQueryParams
+  ): Observable<GetProductsResponse> {
     let url = `${this.API_URL}/products?`;
-    if (type) {
-        url += `type=${type}&`;
+    if (ProductQueryParams.type) {
+      url += `type=${ProductQueryParams.type}&`;
     }
-    if (published != null) {
-        url += `published=${published}&`;
+    if (ProductQueryParams.published != null) {
+      url += `published=${ProductQueryParams.published}&`;
     }
-    if (sortBy) {
-        url += `sortBy=${sortBy}&`;
+    if (ProductQueryParams.sortBy) {
+      url += `sortBy=${ProductQueryParams.sortBy}&`;
     }
-    if (sortOrder) {
-        url += `sortOrder=${sortOrder}&`;
+    if (ProductQueryParams.sortOrder) {
+      url += `sortOrder=${ProductQueryParams.sortOrder}&`;
     }
-    if (page != null) {
-        url += `page=${page + 1}&`;
+    if (ProductQueryParams.page != null) {
+      url += `page=${ProductQueryParams.page }&`;
     }
-    if (pageSize != null) {
-        url += `pageSize=${pageSize}&`;
+    if (ProductQueryParams.pageSize != null) {
+      url += `pageSize=${ProductQueryParams.pageSize}&`;
     }
+    if (ProductQueryParams.categories) {
+      url += `categories=${ProductQueryParams.categories.join(',')}&`;
+    }
+    console.log(url)
     return this.http.get<GetProductsResponse>(url);
-}
+  }
 
-  getProduct(id: string){
+  getProduct(id: string) {
     return this.http.get(this.API_URL + '/products/' + id);
   }
 
-  createProduct(product: createProduct){
+  createProduct(product: createProduct) {
     return this.http.post(this.API_URL + '/products', product);
   }
 
-  updateProduct(id: number, product: editProduct): Observable<UpdateProductResponse>{
-    return this.http.put<UpdateProductResponse>(this.API_URL + '/product/' + id, product);
+  updateProduct(
+    id: number,
+    product: editProduct
+  ): Observable<UpdateProductResponse> {
+    return this.http.put<UpdateProductResponse>(
+      this.API_URL + '/product/' + id,
+      product
+    );
   }
 
-  deleteProduct(id: string){
+  deleteProduct(id: string) {
     return this.http.delete(this.API_URL + '/products/' + id);
   }
 
   //BORRAR CUANDO IMPLEMENTES UN SERVICIO DE PDF
-  generatePdf(productsId: any){
+  generatePdf(productsId: any) {
     console.log(productsId);
-    return this.http.post(this.API_URL + '/pdf/generate', {products_id: productsId}, {responseType: 'blob'});
+    return this.http.post(
+      this.API_URL + '/pdf/generate',
+      { products_id: productsId },
+      { responseType: 'blob' }
+    );
   }
-
 }

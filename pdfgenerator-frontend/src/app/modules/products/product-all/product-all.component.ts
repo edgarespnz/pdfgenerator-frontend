@@ -1,4 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
@@ -8,9 +9,12 @@ import { MatSort , Sort} from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { Product } from 'src/app/interfaces/products/product.interface';
+import { Product } from 'src/app/interfaces/products/Product.interface';
+import { ProductsQueryParams } from 'src/app/interfaces/products/productsQueryParams.interface';
+import { CategoryService } from 'src/app/services/apis/category-api/category.service';
 import { ProductService } from 'src/app/services/apis/product-api/product.service';
 import { EditProductDialogComponent } from 'src/app/shared/components/product/edit-product-dialog/edit-product-dialog.component';
+import { removeAccents } from 'src/app/utils/regex.utils';
 
 @Component({
   selector: 'app-product-all',
@@ -18,11 +22,17 @@ import { EditProductDialogComponent } from 'src/app/shared/components/product/ed
   styleUrls: ['./product-all.component.css'],
 })
 export class ProductAllComponent implements AfterViewInit {
-  dataSource: MatTableDataSource<Product> = new MatTableDataSource();
-  dataCopy: Product[] = [];
+
+  dataSource: MatTableDataSource<Product> = new MatTableDataSource(); //data source for the products table
+  dataCopy: Product[] = []; //copy of the data source for actions like edit , delete and update
+  selection = new SelectionModel<Product>(true, []); //selection model for the products table
+  categories: any[] = []; //TODO: tipar la respuesta con una interfaz
+  selectedCategories = new FormControl([]); 
   displayedColumns: string[] = [
+    'select',
     'sku',
     'title',
+    'category',
     'stock',
     'price',
     'discounted_price',
@@ -30,25 +40,39 @@ export class ProductAllComponent implements AfterViewInit {
     'actions',
   ];
 
-  isHeaderSticky = false;
-  regExpr: any; // Expresión regular para filtros
-  isLoadingResults = true;
+  isHeaderSticky = true; 
+  isHeaderCheckboxChecked = false; //defines the checkbox status in the header of the products table
+
+  //loadings
+  isLoadingResults = true; //defines spinner loading for the products table
+  isPdfGeneratorLoading = false; //defines spinner loading for the pdf generator button
   resultsLength = 0;
 
+  productsQueryParams: ProductsQueryParams = {
+    type: '',
+    published: undefined,
+    sortBy: undefined,
+    sortOrder: undefined,
+    page: undefined,
+    pageSize: 100,
+    categories: [],
+  };
+
+ 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  formControl = new FormControl('');
-  skuInputOptions: [] = [];
 
   constructor(
     private productsService: ProductService,
     private dialog: MatDialog,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private categoryService: CategoryService,
   ) {}
 
   ngAfterViewInit() {
     this.getQueryProducts();
+    this.fetchCategories();
   }
 
   getQueryProducts(){
@@ -61,15 +85,10 @@ export class ProductAllComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          this.productsQueryParams.page = this.paginator.pageIndex + 1;
+          this.productsQueryParams.pageSize = this.paginator.pageSize;
           return this.productsService
-            .getProducts(
-              'simple',
-              undefined,
-              undefined,
-              this.sort.direction,
-              this.paginator.pageIndex,
-              this.paginator.pageSize
-            )
+            .getProducts(this.productsQueryParams)
             .pipe(catchError(() => observableOf(null)));
         }),
         map((data) => {
@@ -86,9 +105,7 @@ export class ProductAllComponent implements AfterViewInit {
         this.dataCopy = data;
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
-        console.log('data', this.sort);
       });
-      
   }
 
   editProduct(id: number) {
@@ -120,12 +137,26 @@ export class ProductAllComponent implements AfterViewInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+    const filterValue = removeAccents((event.target as HTMLInputElement).value);
+    this.dataSource.filterPredicate = this.customFilterPredicate.bind(this);
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  //Función personalizada para filtrar los datos
+  customFilterPredicate(data: Product, filter: string): boolean {
+    const filterWithoutAccents = removeAccents(filter).toLowerCase();
+    const sku = removeAccents(data.sku ?? '').toLowerCase();
+    const title = removeAccents(data.title ?? '').toLowerCase();
+    const category = removeAccents(data.Category.name ?? '').toLowerCase();
+
+    return (
+      title.includes(filterWithoutAccents) || 
+      sku.includes(filterWithoutAccents) ||
+      category.includes(filterWithoutAccents)
+    );
   }
 
   importProducts(){
@@ -143,5 +174,72 @@ export class ProductAllComponent implements AfterViewInit {
   isSticky(){
     this.isHeaderSticky = !this.isHeaderSticky;
   }
+
+  toggleAllRows(){
+    if(this.isAllSelected()){
+      this.selection.clear();
+      return;
+    }
+    this.selection.select(...this.dataSource.data);
+    this.isHeaderCheckboxChecked = this.isAllSelected();
+  }
+
+  isAllSelected(){
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  checkboxLabel(row?: Product): string {
+    if (!row || row?.sku === undefined) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'}  row${
+      row.sku + 1
+    }`;
+  }
+
+  fetchCategories() {
+    this.categoryService.getCategories().subscribe({
+      next: (response: any) => {  //TODO: TIPAR LA RESPUESTA CON UNA INTERFAZ
+       this.selection.clear();
+       this.isHeaderCheckboxChecked = false;
+        this.categories = response.categories;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
+  addCategoryToSelection() {
+    const selectedCategories = this.selectedCategories.value;
+    this.productsQueryParams.categories = selectedCategories;
+    this.getQueryProducts();
+    console.log("DATA OBTENIDA ",this.dataSource.data);
+  }
+
+  generatePdf() {
+    console.log("PRODUCTOS SELECCIONADOS", this.selection.selected);
+    
+      this.isPdfGeneratorLoading = true;
+    const products_id_list = this.selection.selected.map(
+      (product) => product.id
+    );
+    this.productsService.generatePdf(products_id_list).subscribe({
+      next: (response: any) => {
+        const file = new Blob([response], { type: 'application/pdf' });
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL, '_blank');
+        this.isPdfGeneratorLoading = false;
+      },
+      error: (error) => {
+        this.isPdfGeneratorLoading = false;
+        console.error(error);
+      },
+    });
+    
+  }
+
 
 }

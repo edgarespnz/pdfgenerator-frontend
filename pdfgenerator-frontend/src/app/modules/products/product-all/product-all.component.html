@@ -1,47 +1,117 @@
 <div class="products-page mainContainer">
-    <div class="actions">
-        <mat-form-field class="filter-input">
-            <mat-label>Buscar un producto</mat-label>
-            <mat-icon matPrefix>search</mat-icon>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por SKU o Nombre" #input>
-        </mat-form-field>
+    <div class="filters-and-actions">
+        <div class="filters">
+            <mat-form-field class="filter-input" appearance="outline" style="margin-bottom: 2%;">
+                <mat-label>Buscar producto</mat-label>
+                <mat-icon matPrefix>search</mat-icon>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por SKU, Nombre o Categoría..." #input>
+                <mat-hint>
+                    <strong style="font-size: smaller;">*La búsqueda se hace sobre la paginación actual</strong>
+                </mat-hint>
+            </mat-form-field>
+    
+            <mat-form-field class="categories-dropdown" appearance="outline">
+                <mat-label>Categorías</mat-label>
+                <mat-select
+                  [formControl]="selectedCategories"
+                  multiple
+                  (selectionChange)="addCategoryToSelection()"
+                >
+                  <mat-option *ngFor="let category of categories" [value]="category.id">{{
+                    category.name
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
 
 
-        <button mat-stroked-button color="primary" value="header-1" (click)="isSticky()">Fijar Encabezados<mat-icon *ngIf="isHeaderSticky">check</mat-icon></button>
-        <button mat-raised-button color="primary" (click)="addProduct()">Nuevo producto</button>
-        <button mat-raised-button color="accent" (click)="importProducts()">Importar</button>
-        <button mat-raised-button color="warn" (click)="exportProducts()">Exportar</button>
+        <div class="buttons-group">
+            <button mat-stroked-button color="primary" value="header-1" (click)="isSticky()">Fijar Encabezados<mat-icon
+                    *ngIf="isHeaderSticky">check</mat-icon></button>
+            <button mat-raised-button color="primary" (click)="addProduct()">Nuevo producto</button>
+            <button mat-raised-button color="accent" (click)="importProducts()">Importar</button>
+            <button mat-raised-button color="warn" (click)="exportProducts()">Exportar</button>
+
+            
+            <button mat-raised-button color="primary" (click)="generatePdf()" [disabled]="isPdfGeneratorLoading">
+                <div class="" *ngIf="isPdfGeneratorLoading">
+                    <mat-spinner></mat-spinner>
+                <p > GENERANDO PDF...</p>
+                </div>
+                    <p *ngIf="!isPdfGeneratorLoading">EXPORTAR SELECCIONADOS A PDF</p>
+            </button>
+        </div>
     </div>
     <div class="table-container mat-elevation-z8">
         <div class="loading-shade" *ngIf="isLoadingResults">
-                <mat-spinner ></mat-spinner>
-            </div>
+            <mat-spinner></mat-spinner>
+        </div>
         <div class="productsAllTable">
-            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"  aria-label="products table">
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+                aria-label="products table">
+
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            
+                             [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- SKU COLUMN-->
                 <ng-container matColumnDef="sku">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by SKU"> SKU </th>
                     <td mat-cell *matCellDef="let product">{{product.sku}}</td>
                 </ng-container>
+
+                <!-- TITLE COLUMN-->
                 <ng-container matColumnDef="title">
                     <th mat-header-cell *matHeaderCellDef> Nombre </th>
                     <td mat-cell *matCellDef="let product">{{product.title}}</td>
                 </ng-container>
+
+                <!-- STOCK COLUMN-->
                 <ng-container matColumnDef="stock">
                     <th mat-header-cell *matHeaderCellDef> Stock </th>
                     <td mat-cell *matCellDef="let product">{{product.stock}} </td>
                 </ng-container>
+
+                <!-- CATEGORY COLUMN-->
+                <ng-container matColumnDef="category">
+                    <th mat-header-cell *matHeaderCellDef> Categoría </th>
+                    <td mat-cell *matCellDef="let item">{{item.Category.name}} </td>
+                </ng-container>
+
+                <!-- PRICE COLUMN-->
                 <ng-container matColumnDef="price">
                     <th mat-header-cell *matHeaderCellDef> Precio reg. </th>
-                    <td mat-cell *matCellDef="let product"> {{product.price}} </td>
+                    <td mat-cell *matCellDef="let product"> {{product.regular_price}} </td>
                 </ng-container>
+
+                <!-- DISCOUNTED PRICE COLUMN-->
                 <ng-container matColumnDef="discounted_price">
                     <th mat-header-cell *matHeaderCellDef> Precio desc. </th>
                     <td mat-cell *matCellDef="let product"> {{product.discounted_price}} </td>
                 </ng-container>
+
+                <!-- PUBLISHED COLUMN-->
                 <ng-container matColumnDef="published">
                     <th mat-header-cell *matHeaderCellDef> En catálogo. </th>
-                    <td mat-cell *matCellDef="let product" [ngClass]="product.published === true ? 'in-stock-true': 'in-stock-false' "> {{ product.published === true ? "SI" : "NO"}} </td>
+                    <td mat-cell *matCellDef="let product"
+                        [ngClass]="product.published === true ? 'in-stock-true': 'in-stock-false' "> {{
+                        product.published === true ? "SI" : "NO"}} </td>
                 </ng-container>
+
+                <!-- ACTIONS COLUMN-->
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
                     <td mat-cell *matCellDef="let product">
@@ -56,18 +126,22 @@
                                 <mat-icon>content_copy</mat-icon>
                             </button>
                         </div>
-                        
+
                     </td>
                 </ng-container>
+
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
                 <!--Row shown when there's no matching data-->
                 <tr class="mat-row" *matNoDataRow>
-                    <td class="mat-cell" colspan="4">No hay productos que coincidan con la búsqueda "{{input.value}}"</td>
+                    <td class="mat-cell" colspan="4">No hay productos que coincidan con la búsqueda "{{input.value}}"
+                    </td>
                 </tr>
             </table>
         </div>
-        <mat-paginator [length]="resultsLength" [pageSize]="100" [pageSizeOptions]="[100, 200, 1000]" aria-label="Select page of Products results"></mat-paginator>
+        <mat-paginator [length]="resultsLength" [pageSize]="100" [pageSizeOptions]="[5,10,100, 1000]"> "Select page of
+            Products results"></mat-paginator>
     </div>
 </div>

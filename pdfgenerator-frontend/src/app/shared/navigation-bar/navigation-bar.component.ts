@@ -12,16 +12,6 @@ export class NavigationBarComponent {
 
   
   PDF_TREE_DATA: RoutesNestedTree[] = [
-  //Nested tree for PDF generator
-    {
-      title: 'Generador de PDF',
-      path: '',
-      children: [
-        { title: 'Exportar PDFs', path: 'pdf-generator/export' },
-        { title: 'Crear un nuevo grupo de PDFs', path: 'pdf-generator/create'},
-      ],
-    },
-    
   //Nested tree for Products
     {
       title: 'Productos',
