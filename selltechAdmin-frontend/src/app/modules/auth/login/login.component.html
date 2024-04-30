@@ -1,0 +1,34 @@
+<div class="mainContainer">
+    <mat-card class="loginContainer">
+        <mat-card-header>
+            <mat-card-title>
+                <h4>INICIAR SESIÓN</h4>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="errors" *ngIf="showErrors === true">
+                <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Correo electrónico no válido</mat-error>
+                <mat-error *ngIf="loginForm.get('email')?.hasError('required')">El campo correo electronico es requerido</mat-error>
+                <mat-error *ngIf="loginForm.get('password')?.hasError('required')">El campo contraseña es requerirdo</mat-error>
+                <mat-error *ngIf="errorMessage !==''">{{errorMessage}}</mat-error>
+            </div>
+            <form [formGroup]="loginForm" (ngSubmit)="login()" class="form-fields">
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="Correo electronico" formControlName="email">
+                    <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="Contraseña" formControlName="password" [type]="showPassword ? 'text' : 'password'">
+                    <mat-icon matSuffix (click)="showPassword = !showPassword">{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </mat-form-field>
+            </form>
+        </mat-card-content>
+        <mat-card-footer>
+            <button mat-raised-button (click)="login()" class="loginButton" [disabled]="disabledButton">Iniciar Sesión</button>
+        </mat-card-footer>
+        <mat-card-actions class="actions">
+            <button class="forgotPasswordButton" mat-button>¿Olvidaste la contraseña?</button>
+        </mat-card-actions>
+
+    </mat-card>
+</div>
