@@ -12,20 +12,32 @@ import { ProductCreateComponent } from './modules/products/product-create/produc
 import { ProductEditComponent } from './modules/products/product-edit/product-edit.component';
 import { ProductAllComponent } from './modules/products/product-all/product-all.component';
 import { GeneratedFilesAllComponent } from './modules/generated-files/generated-files-all/generated-files-all.component';
+import { UsersComponent } from './modules/suscriptions/users/users.component';
+import { SettingsComponent } from './modules/suscriptions/settings/settings.component';
+import { BenefitsComponent } from './modules/suscriptions/benefits/benefits.component';
+import { PrizesComponent } from './modules/suscriptions/prizes/prizes.component';
 
 
 
 export const routes: Routes = [
     {path: 'login', title: 'Iniciar Sesión', component: LoginComponent},
-    {path: 'admin/dashboard', title: 'Productos',component: DashboardComponent,canActivate: [authGuard],children: [
+    {path: 'admin', title: 'Productos',component: DashboardComponent,canActivate: [authGuard],children: [
         {path: 'products/create', title: 'Crear un nuevo producto', component: ProductCreateComponent},
         {path: 'products/edit', title: 'Editar un producto', component: ProductEditComponent},
         {path: 'products/all', title: 'Todos los productos', component: ProductAllComponent}
       ]
     },
-    {path: 'admin/dashboard', title: 'Archivos Generados', component: DashboardComponent, canActivate: [authGuard], children: [
+    {path: 'admin', title: 'Archivos Generados', component: DashboardComponent, canActivate: [authGuard], children: [
         {path: 'generated-files', title: 'Archivos Generados', component: GeneratedFilesAllComponent}
     ]},
+    {
+      path: 'admin/subscriptions', title: 'Suscripciones', component: DashboardComponent, canActivate: [authGuard], children: [
+        {path: 'users/all', title: 'Todos los usuarios', component: UsersComponent},
+        {path: 'prizes', title: 'Premios', component: PrizesComponent},
+        {path: 'benefits', title: 'Beneficios', component: BenefitsComponent},
+        {path: 'settings', title: 'Configuración', component: SettingsComponent}
+      ]
+    },
     {path: '', redirectTo: '/login', pathMatch: 'full'},
     {path: '**', component: NotFoundComponent}
 ];

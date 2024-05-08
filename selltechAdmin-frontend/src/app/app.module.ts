@@ -57,6 +57,13 @@ import { EditProductDialogComponent } from './shared/components/product/edit-pro
 import { CreateProductDialogComponent } from './shared/components/product/create-product-dialog/create-product-dialog.component';
 import { GeneratePdfDialogComponent } from './shared/components/product/generate-pdf-dialog/generate-pdf-dialog.component';
 import { GeneratedFilesAllComponent } from './modules/generated-files/generated-files-all/generated-files-all.component';
+import { UsersComponent } from './modules/suscriptions/users/users.component';
+import { SettingsComponent } from './modules/suscriptions/settings/settings.component';
+import { PrizesComponent } from './modules/suscriptions/prizes/prizes.component';
+import { BenefitsComponent } from './modules/suscriptions/benefits/benefits.component';
+import { PrizeDialogCreateComponent } from './shared/components/subscriptions/prize-dialog-create/prize-dialog-create.component';
+import { PrizeDialogEditComponent } from './shared/components/subscriptions/prize-dialog-edit/prize-dialog-edit.component';
+import { PrizeDialogActionConfirmComponent } from './shared/components/subscriptions/prize-dialog-action-confirm/prize-dialog-action-confirm.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +87,13 @@ import { GeneratedFilesAllComponent } from './modules/generated-files/generated-
     CreateProductDialogComponent,
     GeneratePdfDialogComponent,
     GeneratedFilesAllComponent,
-    
+    UsersComponent,
+    SettingsComponent,
+    PrizesComponent,
+    BenefitsComponent,
+    PrizeDialogCreateComponent,
+    PrizeDialogEditComponent,
+    PrizeDialogActionConfirmComponent,
   ],
   imports: [
     BrowserModule,

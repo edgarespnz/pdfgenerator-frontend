@@ -1,0 +1,79 @@
+<div class="main-container">
+    <div class="row-1">
+        <div class="buttonGroup">
+            <button mat-raised-button color="primary" (click)="openCreateDialog()">Agregar premio</button>
+        </div>
+    </div>
+
+    <div class="row-2">
+        <div class="loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner></mat-spinner>
+        </div>
+        <div class="prizesTable">
+            <table mat-table [dataSource]="prizesData" matSort (matSortChange)="announceSortChange($event)"
+                aria-label="prizes table">
+
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="isCheckBoxSelected($event)"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- NAME COLUMN-->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Name"> Nombre
+                    </th>
+                    <td mat-cell *matCellDef="let prize">{{prize.name}}</td>
+                </ng-container>
+
+                <!-- DESCRIPTION COLUMN-->
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                    <td mat-cell *matCellDef="let prize">{{prize.description}}</td>
+                </ng-container>
+
+                <!-- QUANTITY COLUMN-->
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                    <td mat-cell *matCellDef="let prize">{{prize.quantity}} </td>
+                </ng-container>
+
+                <!-- ACTIVE COLUMN-->
+                <ng-container matColumnDef="active">
+                    <th mat-header-cell *matHeaderCellDef> Activo </th>
+                    <td mat-cell *matCellDef="let prize">{{prize.active ? "Sí" : "No"}} </td>
+                </ng-container>
+
+                <!-- ACTIONS COLUMN-->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td mat-cell *matCellDef="let prize">
+                        <button mat-button (click)="openEditDialog(prize)">Editar</button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!--Row shown when there's no matching data-->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No se encontraron premios</td>
+                </tr>
+
+            </table>
+        </div>
+        <mat-paginator [length]="resultsLength" [pageSize]="30" [pageSizeOptions]="[5,10,20,100]">
+            Resultados de los premios
+        </mat-paginator>
+    </div>
+</div>

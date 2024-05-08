@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit{
    ngOnInit(): void {
       const token = localStorage.getItem('token');
       if(token){
-         this.router.navigate(['/admin/dashboard']);
+         this.router.navigate(['/admin']);
       }
    }
 
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit{
                localStorage.setItem('user', response.userInfo.username);
                localStorage.setItem('email', response.userInfo.email);
                localStorage.setItem('userId', response.userInfo.userId.toString());
-               this.router.navigate(['/admin/dashboard']);
+               this.router.navigate(['/admin']);
                this.disabledButton = false;
             },
             error: (err) => {

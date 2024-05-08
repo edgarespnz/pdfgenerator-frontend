@@ -21,6 +21,16 @@ export class NavigationBarComponent {
         { title: 'Ver Archivos generados', path: 'generated-files' },
       ],
     },
+    {
+      title: 'Suscripciones',
+      path: '',
+      children: [
+        { title: 'Todos los usuarios', path: 'subscriptions/users/all' },
+        { title: 'Premios', path: 'subscriptions/prizes'},
+        { title: 'Beneficios', path: 'subscriptions/benefits'},
+        { title: 'Configuración', path: 'subscriptions/settings' },
+      ],
+    }
   ];
   treeControl = new NestedTreeControl<RoutesNestedTree>((node) => node.children);
   dataSource = new MatTreeNestedDataSource<RoutesNestedTree>();
@@ -36,6 +46,6 @@ export class NavigationBarComponent {
   hasChild = (_: number, node: RoutesNestedTree) => !!node.children && node.children.length > 0
 
   openRoute(url: string){
-    this.router.navigate([url], { relativeTo: this.route });
+    this.router.navigate([`${'admin/' + url}`]);
   }
 }

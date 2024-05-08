@@ -1,0 +1,43 @@
+<mat-dialog-content>
+    <div class="loading-shade" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+    
+    <form [formGroup]="editUserFormGroup">
+    <mat-error *ngIf="showErrorMessage">Error al actualizar el usuario, intente de nuevo</mat-error>
+        <mat-form-field>
+            <mat-label>Nombre de usuario</mat-label>
+            <input matInput placeholder="Nombre de usuario" formControlName="username" required>
+            <mat-error *ngIf="editUserFormGroup.get('username')?.hasError('required')">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>E-mail</mat-label>
+            <input matInput placeholder="E-mail" formControlName="email" required>
+            <mat-error *ngIf="editUserFormGroup.get('email')?.hasError('required')">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <section>
+            <mat-checkbox formControlName="active">Activo</mat-checkbox>
+            <mat-hint><strong>Si está inactivo el usuario no podrá realizar ninguna acción en el sistema</strong></mat-hint>
+        </section>
+
+        <section>
+            <mat-checkbox formControlName="suscribed">Suscrito</mat-checkbox>
+            <mat-hint><strong>Si está suscrito entonces puede acceder a los beneficios y participar de los sorteos</strong></mat-hint>
+        </section>
+
+
+
+    </form>
+
+    <mat-hint>
+    </mat-hint>
+
+    <mat-dialog-actions>
+        <button mat-raised-button color="warn" (click)="onClose()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onConfirm()">Confirmar</button>
+    </mat-dialog-actions>
+
+
+</mat-dialog-content>
